@@ -2,7 +2,6 @@ import time
 from random import choice
 from the_hands import phand, chand
 import index
-import PySimpleGUI as pys
 def reset():
     x=0
     file = open('The_deck.py', 'w')
@@ -172,11 +171,12 @@ def Dealer_Hit():
 def game():
     Dealer_Win = False
     Player_Win = False
+    push = False
     pick_card()
     print('Your Points: '+ str(player_points()))
     is_running = True
     while is_running:
-        while Dealer_Win == False and Player_Win == False:
+        while Dealer_Win == False and Player_Win == False and push == False:
             if player_points() < 22:
                 Hit_Stand = input('Do you want to Hit or Stand?: ')
                 if Hit_Stand == "Hit":
@@ -198,11 +198,10 @@ def game():
                             if Dealer_Point_Counter() > 21:
                                 print("Dealer Bust, You win")
                                 dealer_turn = False
-                                pass
                             if Dealer_Win == True:
                                 break
                         if Dealer_Point_Counter() == player_points():
-                            print('Push, noone wins')
+                            push = True
                             break
                         if Dealer_Point_Counter() > player_points() and Dealer_Point_Counter()<22:
                             print(Dealer_Point_Counter())
@@ -221,6 +220,10 @@ def game():
             is_running = False
         if Player_Win == True:
             print('You Win, Good Job')
+            is_running = False
+        if push == True:
+            print('Push, Noone Wins')
+            is_running = False
 
 x = 0
 reset()
