@@ -2,6 +2,9 @@ import time
 from random import choice
 from the_hands import phand, chand
 import index
+
+
+#Resets the deck to noramal
 def reset():
     x=0
     file = open('The_deck.py', 'w')
@@ -85,14 +88,16 @@ def pick_card():
     chand.append(Ccard_2)
     Deck.remove(chand[1])
 
-    print(phand[0])
-    print(phand[1])
-    print(chand[0])
+    print('\n\nYour cards are:')
+    print('Your First Card is '+phand[0])
+    print('Your Second Card is '+phand[1])
+    print('\n')
+    print('The Dealers faceup card is: \n'+chand[0])
     print('\n\n')
 
 
 
-
+#Counts the players points
 def player_points():
 
     ppoints = 0 #player points
@@ -105,13 +110,15 @@ def player_points():
 
     #Looks at the first card
     while card< len(phand):
-        while card_number<=10:
+        while card_number<11:
             if str(card_number) in phand[card]:
                 ppoints+=card_number
                 break
-            elif 'J' in phand[card] or 'Q' in phand[card] or 'K' in phand[card] or 'A' in phand[card]:
+            elif 'J' in phand[card] or 'Q' in phand[card] or 'K' in phand[card]:
                 ppoints+= 10
                 break
+            elif 'A' in phand[card]:
+                ppoints+=11
             card_number+=1
         card_number = 1
         card+=1
@@ -151,17 +158,29 @@ def hit():
     current = len(phand)
     current -= 1
     Deck.remove(phand[current])
-    print(phand)
+    i = 0
+    print('Your Hand\n')
+    while i < len(phand):
+        print(phand[i])
+        i+=1
+    print('\nYour points:')
     print(player_points())
+    print('\n\n')
 
 def Dealer_Hit():
-    print('Dealer Hits')
+    print('\nDealer Hits')
     aditional_card=choice(Deck)
     chand.append(aditional_card)
     current = len(chand)
     current -= 1
     Deck.remove(chand[current])
-    print(chand)
+
+    print('\nDealers hand:\n')
+    i = 0
+    while i < len(chand):
+        print(chand[i])
+        i +=1
+    print('\nDealers points:')
     print(Dealer_Point_Counter())
 
 
@@ -180,9 +199,11 @@ def game():
             if player_points() < 22:
                 Hit_Stand = input('Do you want to Hit or Stand?: ')
                 if Hit_Stand == "Hit":
+                    print('You chose to hit\n')
                     hit()
                 elif Hit_Stand == "Stand":
-                    print('Dealers Turn')
+                    print('You chose to stand\n')
+                    print('\nDealers Turn')
                     print("Dealers Points: "+ str(Dealer_Point_Counter()))
                     dealer_turn = True
                     while dealer_turn:
@@ -216,13 +237,13 @@ def game():
             elif player_points() > 21:
                 Dealer_Win = True
         if Dealer_Win == True:
-            print('Game over, Dealer win')
+            print('\n\nGame over, Dealer win\n\n')
             is_running = False
         if Player_Win == True:
-            print('You Win, Good Job')
+            print('\n\nYou Win, Good Job\n\n')
             is_running = False
         if push == True:
-            print('Push, Noone Wins')
+            print('Push, Noone Wins\n\n')
             is_running = False
 
 x = 0
