@@ -12,7 +12,7 @@ def reset():
     while x <5:
         #Hearts
         if x == 0:
-            for num in range(1, 15):
+            for num in range(2, 15):
                 if num <=10:
                     file.write('\''+str(num)+ ' of hearts\', ')
                 if num == 11:
@@ -25,7 +25,7 @@ def reset():
                     file.write('\'A of hearts\',')
         #Spades
         if x == 1:
-            for num in range(1, 15):
+            for num in range(2, 15):
                 if num <=10:
                     file.write('\''+str(num)+ ' of spades\', ')
                 if num == 11:
@@ -38,7 +38,7 @@ def reset():
                     file.write('\'A of spades\',')
         #Clovers
         if x == 2:
-            for num in range(1, 15):
+            for num in range(2, 15):
                 if num <=10:
                     file.write('\''+str(num)+ ' of clovers\', ')
                 if num == 11:
@@ -51,7 +51,7 @@ def reset():
                     file.write('\'A of clovers\',')
         #Diamonds
         if x == 3:
-            for num in range(1, 15):
+            for num in range(2,15):
                 if num <= 10 :
                     file.write('\''+str(num)+ ' of diamonds \', ')
                 if num == 11:
@@ -102,25 +102,25 @@ def player_points():
 
     ppoints = 0 #player points
     card = 0 #itration variable 
-    card_number = 1 #itration variable 
+    card_number = 2 #itration variable 
 
 
     # adds the the players cards togehter to check the points 
     
-
     #Looks at the first card
     while card< len(phand):
         while card_number<11:
-            if str(card_number) in phand[card]:
+            if str(card_number) in phand[card] and card_number != 1:
                 ppoints+=card_number
                 break
-            elif 'J' in phand[card] or 'Q' in phand[card] or 'K' in phand[card]:
+            elif 'J' in phand[card] or 'Q' in phand[card] or 'K' in phand[card] or '1' in phand[card]:
                 ppoints+= 10
                 break
             elif 'A' in phand[card]:
                 ppoints+=11
+                break
             card_number+=1
-        card_number = 1
+        card_number = 2
         card+=1
 
     return ppoints
@@ -128,22 +128,25 @@ def player_points():
 def Dealer_Point_Counter():
     Dealer_Points = 0 #Computers points
     card = 0 #itration variable 
-    card_number = 1 #itration variable 
+    card_number = 2 #itration variable 
 
 
     # adds the the Dealers cards togehter to check the points 
     
 
     while card< len(chand):
-        while card_number<=10:
-            if str(card_number) in chand[card]:
+        while card_number<=11:
+            if str(card_number) in chand[card] and card_number != 1:
                 Dealer_Points+=card_number
                 break
-            elif 'J' in chand[card] or 'Q' in chand[card] or 'K' in chand[card] or 'A' in chand[card]:
+            elif 'J' in chand[card] or 'Q' in chand[card] or 'K' in chand[card] or '1' in chand[card]:
                 Dealer_Points+= 10
                 break
+            elif 'A' in chand[card]:
+                Dealer_Points+=11
+                break
             card_number+=1
-        card_number = 1
+        card_number = 2
         card+=1
 
     return Dealer_Points
@@ -247,18 +250,25 @@ def game():
             is_running = False
 
 x = 0
+
+
 reset()
 from The_deck import Deck as new_Deck
 Deck = new_Deck
-Star_Events, Start_Values = index.start_window.read()
 restar_loop = True
+
+
+
+afermitive = ['Y', 'y', 'Yes', 'yes', 'Yeah', 'yeah']
+negitive =  ['No', 'no', 'n', 'N', 'Na', 'na']
 while restar_loop:
-    Start_Events, Start_Values = index.start_window.read()
-    if Start_Events == 'Start':
-        index.start_window.close()
+    print('\n\nWeclome to Christophers Black Jack\n')
+    Start_Event=(input('Would you like to play? Y or N: '))
+    if Start_Event in afermitive:
         game()
-        x+=1
-    if Start_Events in (index.pys.WIN_CLOSED, 'Exit'):
         break
+    if Start_Event in negitive:
+        break
+
 
 print('end program')
